@@ -12,6 +12,7 @@ const port = process.env.PORT;
 
 // so that the React Client can requests this server
 app.use(cors());
+app.use(express.json());
 
 app.use('/', oAuthRoute);
 app.use('/', candidacyRoute);

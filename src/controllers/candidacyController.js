@@ -22,6 +22,37 @@ const getCandidacyRecordDetails = async (req, res) => {
     }
 }
 
+const insertNewCandidate = async (req, res) => {
+    try {
+        const accessToken = req.headers.authorization.split(' ')[1];
+        const { firstname, lastname, yearOfExperience } = req.body;
+    
+        // Construct the data payload for the new candidate record
+        const data = {
+          First_Name__c: firstname,
+          Last_Name__c: lastname,
+          Year_Of_Experience__c: yearOfExperience
+          // Add more fields as needed
+        };
+    
+        // Make a POST request to insert the new record
+        const response = await axios.post(`${baseURL}/sobjects/Candidature__c`, data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log(response.data)
+        // Return the response from Salesforce API
+        res.json(response.data);
+      } catch (error) {
+        console.error('Error inserting candidate record:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+}
+
+
 module.exports = {
-    getCandidacyRecordDetails
+    getCandidacyRecordDetails,
+    insertNewCandidate
   };
