@@ -22,7 +22,23 @@ const getCandidacyRecordDetails = async (req, res) => {
     }
 }
 
+const getAllCandidates = async (req, res) =>{
+    try {
+        // Extract access token from request headers
+        const accessToken = req.headers.authorization.split(' ')[1];
 
+       const response = await axios.get(`${baseURL}/query?q=SELECT+Id,First_Name__c,Last_Name__c,Year__c,Year_Of_Experience__c+FROM+Candidature__c`, {
+           headers: {
+               Authorization: `Bearer ${accessToken}`
+           }
+       });
+       console.log(response.data)
+       res.json(response.data);
+   } catch (error) {
+       console.error('Error retrieving record details:', error.response ? error.response.data : error.message);
+       throw error;
+   }
+}
 const updateCandidacyLastName = async (req, res) => {
     try {
          // Extract access token from request headers
@@ -77,5 +93,6 @@ const insertNewCandidate = async (req, res) => {
 module.exports = {
     getCandidacyRecordDetails,
     updateCandidacyLastName,
-    insertNewCandidate
+    insertNewCandidate,
+    getAllCandidates
   };
