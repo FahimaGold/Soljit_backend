@@ -4,6 +4,7 @@ const cors = require('cors')
 // storing port number, client_id, secret_id in env variables 
 require('dotenv/config'); 
 const oAuthRoute = require('./src/routes/oAuthRoute'); 
+const candidacyRoute =require('./src/routes/candidacyRoute');
 const app = express();
 
 // using port number in env variables as it may change in production env
@@ -13,6 +14,7 @@ const port = process.env.PORT;
 app.use(cors());
 
 app.use('/', oAuthRoute);
+app.use('/', candidacyRoute);
 app.use('/', (req, res) =>{
     res.send("Hello");
 });
