@@ -22,6 +22,28 @@ const getCandidacyRecordDetails = async (req, res) => {
     }
 }
 
+
+const updateCandidacyLastName = async (req, res) => {
+    try {
+         // Extract access token from request headers
+         const accessToken = req.headers.authorization.split(' ')[1];
+          // Construct the data payload for updating the last name
+        const data = {
+        Last_Name__c: req.body.newLastName
+       };
+     console.log(data.Last_Name__c)
+        const response = await axios.patch(`${baseURL}/sobjects/Candidature__c/a004L000002gCJK`,data, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+        console.log(response.data)
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error updating record lastname:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+}
 const insertNewCandidate = async (req, res) => {
     try {
         const accessToken = req.headers.authorization.split(' ')[1];
@@ -54,5 +76,6 @@ const insertNewCandidate = async (req, res) => {
 
 module.exports = {
     getCandidacyRecordDetails,
+    updateCandidacyLastName,
     insertNewCandidate
   };
